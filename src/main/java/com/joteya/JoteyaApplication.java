@@ -22,7 +22,7 @@ import com.joteya.service.CategoryService;
 import com.joteya.service.ProductService;
 
 @SpringBootApplication(scanBasePackages = { "com.joteya.entities", "com.joteya.service", "com.joteya.dao",
-		"com.joteya.controllers", "com.aziz.catalogue.security" })
+		"com.joteya.controllers", "com.aziz.catalogue.config" })
 
 public class JoteyaApplication implements CommandLineRunner {
 
