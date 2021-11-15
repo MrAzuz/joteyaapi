@@ -7,19 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
-import com.joteya.controllers.ProductController;
+import com.joteya.dao.AccountRepository;
 import com.joteya.dao.CategoryRepository;
 import com.joteya.dao.ProductRepository;
-import com.joteya.dao.RoleRepository;
-import com.joteya.dao.UserRepository;
+import com.joteya.entities.Account;
 import com.joteya.entities.Category;
 import com.joteya.entities.Product;
-import com.joteya.entities.Role;
-import com.joteya.entities.User;
+/*import com.joteya.service.AccountService;*/
+/*import com.joteya.entities.Role;
+import com.joteya.entities.User;*/
 import com.joteya.service.CategoryService;
-import com.joteya.service.ProductService;
 
 @SpringBootApplication(scanBasePackages = { "com.joteya.entities", "com.joteya.service", "com.joteya.dao",
 		"com.joteya.controllers", "com.aziz.catalogue.config" })
@@ -30,14 +28,12 @@ public class JoteyaApplication implements CommandLineRunner {
 	private ProductRepository productRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
-	@Autowired
-	private ProductService productService;
+
 	@Autowired
 	private CategoryService categoryService;
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private RoleRepository roleRepository;
+	/*
+	 * @Autowired private AccountService accountService;
+	 */
 
 	public static void main(String[] args) {
 		SpringApplication.run(JoteyaApplication.class, args);
@@ -47,45 +43,48 @@ public class JoteyaApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Role r1 = roleRepository.save(new Role("ADMIN"));
-		Role r2 = roleRepository.save(new Role("USER"));
+		Category c1 = categoryRepository.save(new Category("C1"));
+		Product p1 = productRepository.save(new Product("test1", "PC", 1000, c1));
 
-		Set<Role> s = new HashSet<Role>();
-		s.add(r2);
-		s.add(r1);
+		/*
+		 * accountService.save(new Account("admin", "1234", 1)); accountService.save(new
+		 * Account("user", "1234", 0));
+		 */
+
+		/*
+		 * Role r1 = roleRepository.save(new Role("ADMIN")); Role r2 =
+		 * roleRepository.save(new Role("USER"));
+		 * 
+		 * Set<Role> s = new HashSet<Role>(); s.add(r2); s.add(r1);
+		 */
 
 		// Set<User> s2 = new
 
-		User u1 = userRepository.save(new User("blueface", "1234", "1234", s));
-		User u2 = userRepository.save(new User("rober", "1234", "1234", s));
-	
-		
-		
-		
-		  categoryService.addCategory(new Category("ciga"));
-		  categoryService.addCategory(new Category("Bic"));
-		  categoryService.addCategory(new Category("noooo"));
-		  
-		  categoryService.updateCategory((long) 3, new Category("gun"));
-		 
-		
-
-		
-		  Category c1 = categoryRepository.save(new Category("C1")); Category c2 =
-		  categoryRepository.save(new Category("C2"));
-		 
-
-		
-		  Product p1 = productRepository.save(new Product("test1", "PC", 1000, c1));
-		  Product p2 = productRepository.save(new Product("test2", "PC", 1000, c1));
-		  Product p3 = productRepository.save(new Product("test3", "PC", 1000, c1));
-		  Product p4 = productRepository.save(new Product("test4", "PC", 1000, c1));
-		  Product p5 = productRepository.save(new Product("test5", "iPhone", 1000,
-		  c1));
-		  
-		  Product p6 = productRepository.save(new Product("test6", "ghjjjj", 1000,
-		  c2));
-		 
+		/*
+		 * User u1 = userRepository.save(new User("blueface", "1234", "1234")); User u2
+		 * = userRepository.save(new User("rober", "1234", "1234"));
+		 */
+		/*
+		 * categoryService.addCategory(new Category("ciga"));
+		 * categoryService.addCategory(new Category("Bic"));
+		 * categoryService.addCategory(new Category("noooo"));
+		 * 
+		 * categoryService.updateCategory((long) 3, new Category("gun"));
+		 * 
+		 * Category c1 = categoryRepository.save(new Category("C1"));
+		 * 
+		 * Category c2 = categoryRepository.save(new Category("C2"));
+		 * 
+		 * Product p1 = productRepository.save(new Product("test1", "PC", 1000, c1));
+		 * Product p2 = productRepository.save(new Product("test2", "PC", 1000, c1));
+		 * Product p3 = productRepository.save(new Product("test3", "PC", 1000, c1));
+		 * Product p4 = productRepository.save(new Product("test4", "PC", 1000, c1));
+		 * Product p5 = productRepository.save(new Product("test5", "iPhone", 1000,
+		 * c1));
+		 * 
+		 * Product p6 = productRepository.save(new Product("test6", "ghjjjj", 1000,
+		 * c2));
+		 */
 
 		// Product product = new Product("Knife", "dddddd", 500, c2);
 

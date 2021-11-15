@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.amazonaws.auth.AWS3Signer;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -77,16 +77,39 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product addProduct(Product product) {
+	public Product update_product(Long id, MultipartFile file, String name, String description, double price,
+			Category category) throws IOException {
 
-		Product p = new Product();
-		p.setName(product.getName());
-		p.setDescription(product.getDescription());
-		p.setPrice(product.getPrice());
-		p.setCategory(product.getCategory());
+		Product p = findProduct(id);
+		p.setName(name);
+		p.setDescription(description);
+		p.setPrice(price);
+		p.setCategory(category);
+
+		String filename = p.getId().toString() + ".jpg";
+
+		p.setImage(filename);
+
+		ObjectMetadata metadata = new ObjectMetadata();
+		metadata.setContentLength(file.getSize());
+		metadata.setContentType(file.getContentType());
+
+		try {
+
+			awsS3Client.deleteObject("joteyaapi", filename);
+			awsS3Client.putObject("joteyaapi", filename, file.getInputStream(), metadata);
+
+		} catch (IOException e) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"Error occured while uploadig the file");
+
+		}
+
+		awsS3Client.setObjectAcl("joteyaapi", filename, CannedAccessControlList.PublicRead);
 
 		return productRepository.save(p);
 	}
+
 
 	@Override
 	public Product updateProduct(Long id, Product product) {
@@ -110,6 +133,15 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void deleteProduct(Long id) {
 		Product p = findProduct(id);
+
+		String filename = p.getImage();
+
+		
+
+			awsS3Client.deleteObject("joteyaapi", filename);
+
+		
+
 		productRepository.delete(p);
 	}
 
