@@ -1,22 +1,24 @@
 package com.joteya;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.joteya.dao.AccountRepository;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.joteya.dao.CategoryRepository;
 import com.joteya.dao.ProductRepository;
-import com.joteya.entities.Account;
 import com.joteya.entities.Category;
 import com.joteya.entities.Product;
-/*import com.joteya.service.AccountService;*/
-/*import com.joteya.entities.Role;
-import com.joteya.entities.User;*/
+
 import com.joteya.service.CategoryService;
 
 @SpringBootApplication(scanBasePackages = { "com.joteya.entities", "com.joteya.service", "com.joteya.dao",
@@ -31,11 +33,30 @@ public class JoteyaApplication implements CommandLineRunner {
 
 	@Autowired
 	private CategoryService categoryService;
-	/*
-	 * @Autowired private AccountService accountService;
-	 */
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+
+		/*
+		 * ClassLoader classLoader = JoteyaApplication.class.getClassLoader();
+		 * 
+		 * File file = new
+		 * File(Objects.requireNonNull(classLoader.getResource("serviceAccountKey.json")
+		 * ).getFile());
+		 * 
+		 * FileInputStream serviceAccount = new FileInputStream(file.getAbsoluteFile());
+		 * 
+		 * 
+		 * FirebaseOptions options = new FirebaseOptions.Builder()
+		 * .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+		 * .setStorageBucket("joteyaapi.appspot.com") .build();
+		 * 
+		 * FirebaseApp.initializeApp(options);
+		 */
+		
+		
+		
+		
+		
 		SpringApplication.run(JoteyaApplication.class, args);
 
 	}
@@ -43,13 +64,10 @@ public class JoteyaApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+		// "serviceAccountKey.json"
+
 		Category c1 = categoryRepository.save(new Category("C1"));
 		Product p1 = productRepository.save(new Product("test1", "PC", 1000, c1));
-
-		/*
-		 * accountService.save(new Account("admin", "1234", 1)); accountService.save(new
-		 * Account("user", "1234", 0));
-		 */
 
 		/*
 		 * Role r1 = roleRepository.save(new Role("ADMIN")); Role r2 =
